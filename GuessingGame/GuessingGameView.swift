@@ -19,8 +19,8 @@ import SwiftUI
 // The game's settings. They sit up here, outside the game,
 // so that every part of the game below can use them.
 // TRY: Change highestNumber to 10 for an easy game, or to 1000 for a hard one.
-let lowestNumber: Int = 1
-let highestNumber: Int = 50
+var lowestNumber: Int = 1
+var highestNumber: Int = 50
 
 // The game itself: what it remembers, what it shows on the screen,
 // and what it does when you click a button.
@@ -48,9 +48,7 @@ struct GuessingGameView: View {
     // Becomes true when the player finds the secret number.
     @State var gameIsOver: Bool = false
 
-    //state the lowest and highest possible numbers based on guesses
-    @State var lowestGuessNumber: Int = 0
-    @State var highestGuessNumber: Int = 0
+
     
     
     // MARK: - Computed properties
@@ -71,7 +69,19 @@ struct GuessingGameView: View {
             .minimumScaleFactor(0.5)
 
             Spacer()
-
+            
+            //Buttons for different game modes
+            HStack{
+                Button("Easy"){
+                    easyGame()
+                }
+                Button("Meduim"){
+                    mediumGame()
+                }
+                Button("Hard"){
+                    hardGame()
+                }
+            }
             // The message card: what the game has to say to you.
             VStack(spacing: 12) {
                 Image(systemName: messageSymbol)
@@ -90,21 +100,10 @@ struct GuessingGameView: View {
 
             // The guess you are about to make, shown nice and big.
             // TRY: Change the size of this number from 96 to something else.
-            HStack {
-                VStack {
-                    Text("Minimum")
-                    Text("\(lowestGuessNumber)")
-                    
-                }
-                Text("\(guess)")
-                    .font(.system(size: 104, weight: .bold))
-                    .monospacedDigit()
-                VStack {
-                    Text("Maximum")
-                    Text("\(highestGuessNumber)")
-                }
-            }
 
+            Text("\(guess)")
+                .font(.system(size: 104, weight: .bold))
+                .monospacedDigit()
 
             // Four buttons to change the guess.
             // The code inside the braces runs when that button is clicked.
@@ -199,10 +198,6 @@ struct GuessingGameView: View {
         }
     }
     
-    //editing the minimum and maximum value
-    func range() {
-        
-    }
     // Makes the guess 10 smaller, but never smaller than the lowest number.
     func lowerGuessByTen() {
         guess -= 10
@@ -241,6 +236,39 @@ struct GuessingGameView: View {
         guess = (lowestNumber + highestNumber) / 2
         guessCount = 0
         message = "I'm thinking of a new number from \(lowestNumber) to \(highestNumber)."
+        messageSymbol = "questionmark.circle.fill"
+        messageColor = Color.indigo
+        gameIsOver = false
+    }
+    
+    //easy mode
+    func easyGame() {
+        secretNumber = Int.random(in: 1...10)
+        guess = (lowestNumber + highestNumber) / 2
+        guessCount = 0
+        message = "I'm thinking of a new number from 1 to 10."
+        messageSymbol = "questionmark.circle.fill"
+        messageColor = Color.indigo
+        gameIsOver = false
+    }
+    
+    //medium mode
+    func mediumGame() {
+        secretNumber = Int.random(in: 1...100)
+        guess = (lowestNumber + highestNumber) / 2
+        guessCount = 0
+        message = "I'm thinking of a new number from 1 to 100."
+        messageSymbol = "questionmark.circle.fill"
+        messageColor = Color.indigo
+        gameIsOver = false
+    }
+    
+    //hard mode
+    func hardGame() {
+        secretNumber = Int.random(in: 1...1000)
+        guess = (lowestNumber + highestNumber) / 2
+        guessCount = 0
+        message = "I'm thinking of a new number from 1 to 1000."
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
