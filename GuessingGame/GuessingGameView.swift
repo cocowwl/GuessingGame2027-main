@@ -20,7 +20,7 @@ import SwiftUI
 // so that every part of the game below can use them.
 // TRY: Change highestNumber to 10 for an easy game, or to 1000 for a hard one.
 var lowestNumber: Int = 1
-var highestNumber: Int = 50
+var highestNumber: Int = 100
 
 // The game itself: what it remembers, what it shows on the screen,
 // and what it does when you click a button.
@@ -48,7 +48,11 @@ struct GuessingGameView: View {
     // Becomes true when the player finds the secret number.
     @State var gameIsOver: Bool = false
 
-
+    // The record number
+    @State var record: Int = 0
+    
+    //The text
+    @State var parityHint: String = ""
     
     
     // MARK: - Computed properties
@@ -69,6 +73,9 @@ struct GuessingGameView: View {
             .minimumScaleFactor(0.5)
 
             Spacer()
+            
+            //record feature
+            Text("Record:\(guessCount)")
             
             //Buttons for different game modes
             HStack{
@@ -95,16 +102,16 @@ struct GuessingGameView: View {
             .frame(maxWidth: .infinity, minHeight: 180)
             .background(messageColor.opacity(0.15))
             .clipShape(RoundedRectangle(cornerRadius: 24))
-
-            Spacer()
-
+            
             // The guess you are about to make, shown nice and big.
             // TRY: Change the size of this number from 96 to something else.
-
+            
             Text("\(guess)")
                 .font(.system(size: 104, weight: .bold))
                 .monospacedDigit()
 
+            Text(parityHint)
+            
             // Four buttons to change the guess.
             // The code inside the braces runs when that button is clicked.
             HStack(spacing: 8) {
@@ -136,11 +143,26 @@ struct GuessingGameView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(Color.green)
             } else {
-                Button("Guess", systemImage: "hand.point.up.left.fill") {
-                    checkGuess()
-                    colorHints()
+                HStack{
+                    Button("Guess", systemImage: "hand.point.up.left.fill") {
+                        checkGuess()
+                        colorHints()
+                    }
+                    .buttonStyle(.borderedProminent)
+                    Button("Hint") {
+                        if secretNumber % 2 == 0 {
+                            parityHint = "The number is even."
+                        } else {
+                            parityHint = "The number is odd."
+                        }
+                        if !parityHint.isEmpty {
+                            Text(parityHint)
+                                .font(.headline)
+                                .foregroundStyle(Color.purple)
+                        }
+                    }
                 }
-                .buttonStyle(.borderedProminent)
+
             }
             
 
@@ -171,11 +193,14 @@ struct GuessingGameView: View {
             messageSymbol = "star.circle.fill"
             messageColor = Color.green
             gameIsOver = true
+            
+
         } else {
             // TRY: Change this message. Make it kinder, or sillier.
             message = "\(guess) is not my number. Try again."
             messageSymbol = "xmark.circle.fill"
             messageColor = Color.orange
+
         }
     }
     
@@ -197,6 +222,8 @@ struct GuessingGameView: View {
             messageColor = Color.blue
         }
     }
+    
+    //check the secret value
     
     // Makes the guess 10 smaller, but never smaller than the lowest number.
     func lowerGuessByTen() {
@@ -239,6 +266,7 @@ struct GuessingGameView: View {
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
+        parityHint = ""
     }
     
     //easy mode
@@ -250,6 +278,7 @@ struct GuessingGameView: View {
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
+        parityHint = ""
     }
     
     //medium mode
@@ -261,6 +290,7 @@ struct GuessingGameView: View {
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
+        parityHint = ""
     }
     
     //hard mode
@@ -272,6 +302,7 @@ struct GuessingGameView: View {
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
+        parityHint = ""
     }
 }
 
