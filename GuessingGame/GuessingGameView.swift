@@ -65,7 +65,7 @@ struct GuessingGameView: View {
 
             // The title at the top of the screen.
             HStack {
-                Image(systemName: "sparkle.magnifyingglass")
+                Image(systemName: "dollarsign")
                 Text("Guessing Game")
             }
             .font(.largeTitle)
@@ -192,8 +192,8 @@ struct GuessingGameView: View {
         guessCount += 1
 
         if guess == secretNumber {
-            message = "Key gained! Number \(secretNumber) was the correct chamber"
-            messageSymbol = "key.fill"
+            message = "Coin gained! Number \(secretNumber) was the correct chamber"
+            messageSymbol = "dollarsign"
             messageColor = Color.yellow
             gameIsOver = true
             
@@ -265,7 +265,7 @@ struct GuessingGameView: View {
         secretNumber = Int.random(in: lowestNumber...highestNumber)
         guess = (lowestNumber + highestNumber) / 2
         guessCount = 0
-        message = "I'm thinking of a new number from \(lowestNumber) to \(highestNumber)."
+        message = "The coin is hidden in one of the chambers from 1 to 100."
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
@@ -279,7 +279,7 @@ struct GuessingGameView: View {
         secretNumber = Int.random(in: lowestNumber...highestNumber)
         guess = (lowestNumber + highestNumber) / 2
         guessCount = 0
-        message = "The key is hidden in one of the chambers from 1 to 10."
+        message = "The coin is hidden in one of the chambers from 1 to 10."
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
@@ -293,7 +293,7 @@ struct GuessingGameView: View {
         secretNumber = Int.random(in: 1...100)
         guess = (lowestNumber + highestNumber) / 2
         guessCount = 0
-        message = "The key is hidden in one of the chambers from 1 to 100."
+        message = "The coin is hidden in one of the chambers from 1 to 100."
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
@@ -307,7 +307,7 @@ struct GuessingGameView: View {
         secretNumber = Int.random(in: 1...1000)
         guess = (lowestNumber + highestNumber) / 2
         guessCount = 0
-        message = "The key is hidden in one of the chambers from 1 to 1000."
+        message = "The coin is hidden in one of the chambers from 1 to 1000."
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
