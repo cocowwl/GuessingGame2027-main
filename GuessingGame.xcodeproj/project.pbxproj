@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		47269895308D06F6002CF570 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 47269894308D06F6002CF570 /* README.md */; };
+		471FEE01308FE61900253605 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 471FEE00308FE61900253605 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		47269894308D06F6002CF570 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		471FEE00308FE61900253605 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6C92B7F2E9FE41F5CC56B0AF /* GuessingGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GuessingGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -45,7 +45,7 @@
 		C04CD2C2A7FDF3919AE34AC1 = {
 			isa = PBXGroup;
 			children = (
-				47269894308D06F6002CF570 /* README.md */,
+				471FEE00308FE61900253605 /* README.md */,
 				77200B3145A8C5997B58DCAC /* GuessingGame */,
 				1FEC5EF185A1CFCFF824B015 /* Products */,
 			);
@@ -115,7 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47269895308D06F6002CF570 /* README.md in Resources */,
+				471FEE01308FE61900253605 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

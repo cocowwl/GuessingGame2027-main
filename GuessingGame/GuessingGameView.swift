@@ -57,6 +57,10 @@ struct GuessingGameView: View {
     //The text
     @State var parityHint: String = ""
     
+    //The points total
+    @State var totalPoints: Int = 0
+    
+    
     
     // MARK: - Computed properties
 
@@ -79,6 +83,9 @@ struct GuessingGameView: View {
             
             //record feature
             Text("Record:\(guessCount)")
+            
+            //Total points
+            Text("Coins:\(totalPoints)")
             
             //Buttons for different game modes
             HStack{
@@ -196,7 +203,11 @@ struct GuessingGameView: View {
             messageSymbol = "dollarsign"
             messageColor = Color.yellow
             gameIsOver = true
-            
+            if guessCount <= 3{
+                totalPoints += 2
+            } else {
+                totalPoints += 1
+            }
 
         } else {
             // TRY: Change this message. Make it kinder, or sillier.
@@ -227,6 +238,7 @@ struct GuessingGameView: View {
     }
     
     //check the secret value
+    
     
     // Makes the guess 10 smaller, but never smaller than the lowest number.
     func lowerGuessByTen() {
