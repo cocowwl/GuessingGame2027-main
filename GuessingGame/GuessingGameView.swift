@@ -39,7 +39,7 @@ struct GuessingGameView: View {
     @State var guess: Int = (1 + 100) / 2
 
     // How many guesses the player has made in this game.
-    @State var guessCount: Int = 0
+    @State var numberOfGuesses: Int = 0
 
     // The message shown to the player, with a symbol and a colour to match it.
     @State var message: String = "The key is hidden in one of the chambers from 1 to 100."
@@ -52,6 +52,8 @@ struct GuessingGameView: View {
 
     // The record number
     @State var record: Int = 0
+    @State var Count: Int = 0
+    @State var proxyRecord: Int = 0
     
     //The text
     @State var parityHint: String = ""
@@ -62,6 +64,7 @@ struct GuessingGameView: View {
     //The guess range
     @State var lowestEnd: Int = 0
     @State var highestEnd: Int = 100
+    
     
     //The lowest and highest for range
 
@@ -86,7 +89,7 @@ struct GuessingGameView: View {
             Spacer()
             
             //record feature
-            Text("Record:\(guessCount)")
+            Text("Record:\(proxyRecord)")
             
             //Total points
             Text("Coins:\(totalPoints)")
@@ -136,7 +139,7 @@ struct GuessingGameView: View {
             
             
             // Four buttons to change the guess.
-            // The code inside the braces runs when that button is clicked.
+            // The codbe inside the braces runs when that button is clicked.
             HStack(spacing: 8) {
                 Button("-100") {
                     lowerGuessByHundered()
@@ -195,7 +198,7 @@ struct GuessingGameView: View {
             }
             
 
-            Text("Guesses so far: \(guessCount)")
+            Text("Guesses so far: \(numberOfGuesses)")
                 .font(.headline)
                 .foregroundStyle(Color.secondary)
         }
@@ -215,7 +218,9 @@ struct GuessingGameView: View {
     func checkGuess() {
 
         // One more guess has been made.
-        guessCount += 1
+        numberOfGuesses += 1
+        Count += 1
+        
         if record != 0 && guess < record {
            guess = record
         }
@@ -225,12 +230,17 @@ struct GuessingGameView: View {
             messageSymbol = "dollarsign"
             messageColor = Color.yellow
             gameIsOver = true
-            if guessCount <= 3{
+            if numberOfGuesses <= 3{
                 message = "That was speedy! 2 coin gained! Number \(secretNumber) was the correct chamber"
                 totalPoints += 2
             } else {
                 totalPoints += 1
                 message = "Coin gained! Number \(secretNumber) was the correct chamber"
+            }
+            if numberOfGuesses > Count {
+                proxyRecord = numberOfGuesses
+            } else {
+                proxyRecord = Count
             }
         
         //The "miss"
@@ -325,12 +335,13 @@ struct GuessingGameView: View {
         highestNumber = 10
         secretNumber = Int.random(in: lowestNumber...highestNumber)
         guess = (lowestNumber + highestNumber) / 2
-        guessCount = 0
+        numberOfGuesses = 0
         message = "The coin is hidden in one of the chambers from 1 to 100."
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
         parityHint = ""
+        Count = 0
     }
     
     //easy mode
@@ -340,19 +351,15 @@ struct GuessingGameView: View {
         lowestNumber = 1
         highestNumber = 10
         //secretNumber = Int.random(in: lowestNumber...highestNumber)
-        secretNumber = 5
+        secretNumber = Int.random(in: 1...10)
         guess = (lowestNumber + highestNumber) / 2
-        guessCount = 0
+        numberOfGuesses = 0
         message = "The coin is hidden in one of the chambers from 1 to 10."
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
         parityHint = ""
-        if guess < secretNumber && guess > lowestEnd{
-            lowestEnd = guess + 1
-        }else if guess > secretNumber && guess > highestEnd {
-            highestEnd = guess - 1
-        }
+        Count = 0
     }
     
     //medium mode
@@ -363,17 +370,13 @@ struct GuessingGameView: View {
         highestNumber = 100
         secretNumber = Int.random(in: 1...100)
         guess = (lowestNumber + highestNumber) / 2
-        guessCount = 0
+        numberOfGuesses = 0
         message = "The coin is hidden in one of the chambers from 1 to 100."
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
         parityHint = ""
-        if guess < secretNumber {
-            lowestEnd = guess + lowestNumber
-        } else {
-            highestEnd = highestNumber + guess
-        }
+        Count = 0
     }
     
     //hard mode
@@ -384,17 +387,13 @@ struct GuessingGameView: View {
         highestNumber = 1000
         secretNumber = Int.random(in: 1...1000)
         guess = (lowestNumber + highestNumber) / 2
-        guessCount = 0
+        numberOfGuesses = 0
         message = "The coin is hidden in one of the chambers from 1 to 1000."
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false
         parityHint = ""
-        if guess < secretNumber {
-            lowestEnd = guess + lowestNumber
-        } else {
-            highestEnd = highestNumber + guess
-        }
+        Count = 0
     }
 }
 
