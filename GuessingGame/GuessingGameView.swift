@@ -198,7 +198,7 @@ struct GuessingGameView: View {
         // One more guess has been made.
         guessCount += 1
         if record != 0 && guess < record {
-            record = guess
+           guess = record
         }
         if guess == secretNumber {
             messageSymbol = "dollarsign"
