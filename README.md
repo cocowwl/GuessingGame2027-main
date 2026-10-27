@@ -15,10 +15,11 @@ You are guessing a number of the chamber that is randomized by the computer and 
 - I've added a hint button to show a hint of if the number is even or odd at the bottom of the game to help
 - I've added a theme to the game now instead of guessing numbers and being boring now we are opening chambers to earn coins which make the game better by changing the text
 - I've changed the symbols next to the text guessing game at the top and the symbol when you get the right answer
+- I've added coins(points) system where you gain coins will automatically be recorded and if you guess the numbers in three guesses you gain 2
 
  
 ## Credits
  
-- The starting game was written by Mr. Gordon.
+- The guessing game was written by Coco.wang.
 
 

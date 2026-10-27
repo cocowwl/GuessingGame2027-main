@@ -197,16 +197,19 @@ struct GuessingGameView: View {
 
         // One more guess has been made.
         guessCount += 1
-
+        if record != 0 && guess < record {
+            record = guess
+        }
         if guess == secretNumber {
-            message = "Coin gained! Number \(secretNumber) was the correct chamber"
             messageSymbol = "dollarsign"
             messageColor = Color.yellow
             gameIsOver = true
             if guessCount <= 3{
+                message = "That was speedy! 2 coin gained! Number \(secretNumber) was the correct chamber"
                 totalPoints += 2
             } else {
                 totalPoints += 1
+                message = "Coin gained! Number \(secretNumber) was the correct chamber"
             }
 
         } else {
