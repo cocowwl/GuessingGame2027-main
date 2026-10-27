@@ -61,7 +61,10 @@ struct GuessingGameView: View {
     
     //The guess range
     @State var lowestEnd: Int = 0
-    @State var highestEnd: Int = 0
+    @State var highestEnd: Int = 100
+    
+    //The lowest and highest for range
+
     
     // MARK: - Computed properties
 
@@ -117,11 +120,20 @@ struct GuessingGameView: View {
             // The guess you are about to make, shown nice and big.
             // TRY: Change the size of this number from 96 to something else.
             
-            Text("\(guess)")
-                .font(.system(size: 104, weight: .bold))
-                .monospacedDigit()
+            HStack {
+                //the lowest number possible
+                Text("\(lowestEnd)")
+                Text("\(guess)")
+                    .font(.system(size: 104, weight: .bold))
+                    .monospacedDigit()
+                //the highest number possible
+                Text("\(highestEnd)")
+            }
 
+
+            //Odd and Even number hint display
             Text(parityHint)
+            
             
             // Four buttons to change the guess.
             // The code inside the braces runs when that button is clicked.
@@ -207,6 +219,8 @@ struct GuessingGameView: View {
         if record != 0 && guess < record {
            guess = record
         }
+        
+        //The "win"
         if guess == secretNumber {
             messageSymbol = "dollarsign"
             messageColor = Color.yellow
@@ -218,16 +232,17 @@ struct GuessingGameView: View {
                 totalPoints += 1
                 message = "Coin gained! Number \(secretNumber) was the correct chamber"
             }
-
+        
+        //The "miss"
         } else {
             // TRY: Change this message. Make it kinder, or sillier.
             message = "Empty! The chamber you are looking for are between \(lowestEnd) and \(highestEnd)"
             messageSymbol = "xmark.circle.fill"
             messageColor = Color.red
             if guess < secretNumber {
-                lowestEnd = guess + lowestNumber
+                lowestEnd = guess
             } else {
-                highestEnd = highestNumber + guess
+                highestEnd = guess
             }
             
 
@@ -304,6 +319,10 @@ struct GuessingGameView: View {
     
     // Picks a new secret number and resets everything else.
     func startNewGame() {
+        lowestEnd = 1
+        highestEnd = 10
+        lowestNumber = 1
+        highestNumber = 10
         secretNumber = Int.random(in: lowestNumber...highestNumber)
         guess = (lowestNumber + highestNumber) / 2
         guessCount = 0
@@ -316,6 +335,8 @@ struct GuessingGameView: View {
     
     //easy mode
     func easyGame() {
+        lowestEnd = 1
+        highestEnd = 10
         lowestNumber = 1
         highestNumber = 10
         //secretNumber = Int.random(in: lowestNumber...highestNumber)
@@ -327,17 +348,17 @@ struct GuessingGameView: View {
         messageColor = Color.indigo
         gameIsOver = false
         parityHint = ""
-        if guess < secretNumber {
-            lowestEnd = guess + lowestNumber
-            highestEnd = highestNumber
-        }else {
-            lowestEnd = lowestNumber
-            highestEnd = highestNumber - guess
+        if guess < secretNumber && guess > lowestEnd{
+            lowestEnd = guess + 1
+        }else if guess > secretNumber && guess > highestEnd {
+            highestEnd = guess - 1
         }
     }
     
     //medium mode
     func mediumGame() {
+        lowestEnd = 1
+        highestEnd = 100
         lowestNumber = 1
         highestNumber = 100
         secretNumber = Int.random(in: 1...100)
@@ -357,6 +378,8 @@ struct GuessingGameView: View {
     
     //hard mode
     func hardGame() {
+        lowestEnd = 1
+        highestEnd = 1000
         lowestNumber = 1
         highestNumber = 1000
         secretNumber = Int.random(in: 1...1000)
