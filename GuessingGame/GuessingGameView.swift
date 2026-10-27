@@ -17,7 +17,6 @@
 import SwiftUI
 
 
-
 // The game itself: what it remembers, what it shows on the screen,
 // and what it does when you click a button.
 struct GuessingGameView: View {
@@ -60,7 +59,9 @@ struct GuessingGameView: View {
     //The points total
     @State var totalPoints: Int = 0
     
-    
+    //The guess range
+    @State var lowestEnd: Int = 0
+    @State var highestEnd: Int = 0
     
     // MARK: - Computed properties
 
@@ -125,6 +126,9 @@ struct GuessingGameView: View {
             // Four buttons to change the guess.
             // The code inside the braces runs when that button is clicked.
             HStack(spacing: 8) {
+                Button("-100") {
+                    lowerGuessByHundered()
+                }
                 Button("-10") {
                     lowerGuessByTen()
                 }
@@ -136,6 +140,9 @@ struct GuessingGameView: View {
                 }
                 Button("+10") {
                     raiseGuessByTen()
+                }
+                Button("+100") {
+                    raiseGuessByHundered()
                 }
             }
             .buttonStyle(.bordered)
@@ -214,9 +221,15 @@ struct GuessingGameView: View {
 
         } else {
             // TRY: Change this message. Make it kinder, or sillier.
-            message = "Empty! Number \(guess) isn't the right chamber "
+            message = "Empty! The chamber you are looking for are between \(lowestEnd) and \(highestEnd)"
             messageSymbol = "xmark.circle.fill"
             messageColor = Color.red
+            if guess < secretNumber {
+                lowestEnd = guess + lowestNumber
+            } else {
+                highestEnd = highestNumber + guess
+            }
+            
 
         }
     }
@@ -274,7 +287,21 @@ struct GuessingGameView: View {
             guess = highestNumber
         }
     }
-
+    // Makes the guess 100 bigger, but never bigger than the highest number
+    func raiseGuessByHundered() {
+        guess += 100
+        if guess > highestNumber {
+            guess = highestNumber
+        }
+    }
+    // Makes the guess 100 smaller, but never smaller than the lowest number
+    func lowerGuessByHundered() {
+        guess -= 100
+        if guess < lowestNumber {
+            guess = lowestNumber
+        }
+    }
+    
     // Picks a new secret number and resets everything else.
     func startNewGame() {
         secretNumber = Int.random(in: lowestNumber...highestNumber)
@@ -291,7 +318,8 @@ struct GuessingGameView: View {
     func easyGame() {
         lowestNumber = 1
         highestNumber = 10
-        secretNumber = Int.random(in: lowestNumber...highestNumber)
+        //secretNumber = Int.random(in: lowestNumber...highestNumber)
+        secretNumber = 5
         guess = (lowestNumber + highestNumber) / 2
         guessCount = 0
         message = "The coin is hidden in one of the chambers from 1 to 10."
@@ -299,6 +327,13 @@ struct GuessingGameView: View {
         messageColor = Color.indigo
         gameIsOver = false
         parityHint = ""
+        if guess < secretNumber {
+            lowestEnd = guess + lowestNumber
+            highestEnd = highestNumber
+        }else {
+            lowestEnd = lowestNumber
+            highestEnd = highestNumber - guess
+        }
     }
     
     //medium mode
@@ -313,6 +348,11 @@ struct GuessingGameView: View {
         messageColor = Color.indigo
         gameIsOver = false
         parityHint = ""
+        if guess < secretNumber {
+            lowestEnd = guess + lowestNumber
+        } else {
+            highestEnd = highestNumber + guess
+        }
     }
     
     //hard mode
@@ -327,6 +367,11 @@ struct GuessingGameView: View {
         messageColor = Color.indigo
         gameIsOver = false
         parityHint = ""
+        if guess < secretNumber {
+            lowestEnd = guess + lowestNumber
+        } else {
+            highestEnd = highestNumber + guess
+        }
     }
 }
 
