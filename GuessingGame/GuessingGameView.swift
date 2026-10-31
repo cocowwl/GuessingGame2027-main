@@ -234,9 +234,6 @@ struct GuessingGameView: View {
         //The "miss"
         } else {
             // TRY: Change this message. Make it kinder, or sillier.
-            message = "Empty! The chamber you are looking for are between \(lowestEnd) and \(highestEnd)"
-            messageSymbol = "xmark.circle.fill"
-            messageColor = Color.red
             if guess < secretNumber {
                 if guess > lowestEnd {
                     lowestEnd = guess
@@ -246,6 +243,9 @@ struct GuessingGameView: View {
                     highestEnd = guess
                 }
             }
+            message = "Empty! The chamber you are looking for are between \(lowestEnd) and \(highestEnd)"
+            messageSymbol = "xmark.circle.fill"
+            messageColor = Color.red
 
         }
     }
@@ -256,24 +256,23 @@ struct GuessingGameView: View {
     
     // Warm and cold color hints
     func colorHints() {
-        //define a new varibale to store the
-        let relativeDistance = abs(guess - secretNumber)
+        //Exit early if game is won so yellow card color is preserved
+        if gameIsOver {
+            return
+        }
         
-        //if the number is within 5 from the secretnumber
+        //Call function with parameter and return value
+        let relativeDistance: Int = calculateDistance(guess: guess, secret: secretNumber)
+            
+        //Replaced separate ifs with single if / else-if structure to prevent overlaps
         if relativeDistance <= 5 {
             messageColor = Color.red
-        }
-        //if the number is within 10 from the secretnumber
-        if relativeDistance <= 15 && relativeDistance > 5 {
+        } else if relativeDistance <= 15 {
             messageColor = Color.orange
-        }
-        //if the number is within 15 from the secretnumber
-        if relativeDistance > 15 {
+        } else {
             messageColor = Color.blue
         }
     }
-    
-    //check the secret value
     
     
     // Makes the guess 10 smaller, but never smaller than the lowest number.
@@ -329,7 +328,7 @@ struct GuessingGameView: View {
         secretNumber = Int.random(in: lowestNumber...highestNumber)
         guess = (lowestNumber + highestNumber) / 2
         numberOfGuesses = 0
-        message = "The coin is hidden in one of the chambers from 1 to 100."
+        message = "The coin is hidden in one of the chambers from \(lowestEnd) to \(highestEnd)."
         messageSymbol = "questionmark.circle.fill"
         messageColor = Color.indigo
         gameIsOver = false

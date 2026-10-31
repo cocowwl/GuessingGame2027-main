@@ -27,11 +27,16 @@ You are guessing a number of the chamber that is randomized by the computer and 
 | :--- | :--- | :--- | :--- |
 | **Color Hints** | Easy, secret fixed at 3. Guess 1, 2, 4, 5, 6, 7, 8, then 9 and 10 | 1, 2, 4, 5, 6, 7, and 8 show red; 9 and 10 show orange | 1, 2, 4, 5, 6, 7, and 8 did show red, and 9 and 10 showed orange |
 | **Easy Mode Range** | Click on Easy mode | Guessing range changes to 1 to 10 | Did show 1 to 10, and started guessing with 5 instead of 50 |
-| **Record Tracking** | Win in 5 guesses | Record displays `Record: 5` | Record did show 5 |
+| **Record Tracking (Fewest Guesses)** | Win in 3 guesses, tap Play Again, then win in 5 guesses | Record stays at `Record: 3` (stores fewest guesses, not latest win) | Record remained at 3 after the second win |
 | **Parity Hint** | Secret number set to 7, click Hint | Message displays "The number is odd" | Displayed "The number is odd" |
 | **Medium Mode Message** | Start new game in Medium mode | Header text says "The coin is hidden in one of the chambers from 1 to 100" | Showed "The coin is hidden in one of the chambers from 1 to 100" |
-| **Coin Reward Logic** | Secret set to 7, guess correctly in less than 3 tries in twice | Gain 4 coins in total (2 coins x 2 wins) | Total coins increased by 4 |
-| **Dynamic Bounds** | Secret set to 5, guess 6 then guess 4 | Upper bound sets to 6, lower bound sets to 4 | Range adjusted to show between 4 and 6 |
+| **Coin Reward Logic** | Secret set to 7, guess correctly in 3 or fewer tries twice | Gain 4 coins in total (2 coins x 2 wins) | Total coins increased by 4 |
+| **Dynamic Bounds (Correct Ordering)** | On Medium, guess 5 (too low) | Message updates range to between 5 and 100, numbers show 5 and 100 | Message and bounds both updated to show 5 to 100 together |
+| **Wild Guess Bounds Safety** | On Medium, guess 50 (too high), then guess 60 | Upper bound stays at 50 (does not widen back out to 60) | Upper bound remained capped at 50 |
+| **Play Again Mode Retention** | Play in Hard mode (1–1000), win, tap Play Again | Game restarts in Hard mode (1–1000) instead of resetting to Easy | Message and bounds restarted from 1 to 1000 |
+| **Victory Card Color** | Win the game | Message card stays Yellow and does not get overwritten by `colorHints()` Red | Card remained Yellow upon winning |
+| **Color Distance Boundaries** | Distance is exactly 15 away from secret number | Background turns Orange (matches `else if` logic without dual triggering) | Card displayed Orange cleanly |
+| **Initial Window Height** | Launch app window on macOS | Full title, game board, and bottom guess counter are completely visible | Window opened at 760 height displaying all elements without clipping |
 
  
  
