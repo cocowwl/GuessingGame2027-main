@@ -4,8 +4,12 @@ You are guessing a number of the chamber that is randomized by the computer and 
 
 ## How to play
  
-1. you start with a number you want to try guessing and check if your number is right or not
-2. you may keep trying until you get the right number 
+1. Choose a Difficulty Mode: Tap Easy (1–10), Medium (1–100), or Hard (1–1000) at the top of the screen to select your number range.
+2. Make a Guess: Use the "-100", "-10", "-1", "+1", "+10", and "+100" buttons to adjust your guess. Look at the range numbers on the left and right of your guess to see the remaining possible range.
+3. Check for Hints:
+   - Tap "Hint" Button to check if the secret number is even or odd.
+   - Pay attention to the message background color: Red means hot (within 5), Orange means warm (within 15), and Blue means cold.
+4. Earn Coins & Set Records: Tap Guess Button to confirm. Find the number in 3 or fewer guesses to earn 2 coins; otherwise, earn 1 coin. Try to beat your best Record (lowest number of guesses used).
 
 ## What I added
  
@@ -19,15 +23,26 @@ You are guessing a number of the chamber that is randomized by the computer and 
 - I've added the range function which is able to show the minimum possible value and the maximum possible value as you make a guess each time. (*WHY: for harder ones it would be too difficult to determine where the number is, therefore a range that closes up can help)
 
 ## TESTS
-- *IF* In easy mode, the secret number was 3 then when you guess 1, 2, 4, 5, 6, 7 and 8 the color should show red and 9 and 10 will have the color orange shown *DATA* 1, 2, 4, 5, 6, 7 and 8 did show red and 9 and 10 showed orange *BECAUSE* secret number - guess was less or equal to 5 or -5
-- *IF* I click on the word easy the guess count should be from 1 to 10 *DATA* it did show 1 to 10 and I stared guessing with the number 5 instead of 50 
-- *IF* I used 5 time to guess the secret number my record should show record:5 *DATA* it did *BECAUSE* record=guess 
-- *IF* the secret number was 7 my hint will show words The number is odd *DATA* yes it did *BECAUSE* 7 is a odd number and is programmed to show the odd and even of the secret number
-- *IF* I start a new game in medium mode the text in the middle should say The coin is hidden in one of the chambers from 1 to 100 instead of guess a number or something similar *DATA* it showed The coin is hidden in one of the chambers from 1 to 100 *BECAUSE* the number range the mode was setted in and also because the theme change that differs from old one
- - *IF* I set my secret number as 7 and directly guess them twice I am going to gain 4 coins in total *DATA* it did give me 4 coins *BECAUSE* if guess count is less or equal to 3 you gain 2 coins and I guessed 7 twice in a row which makes 2 times 2 coins which makes 4
- - *IF* I set my secret number as 5 and guesses 6, the maximum value would show up as 6, and when I guesses 4, the minimum number would show up as 4. *DATA* The range did show up from 4 to 6 *BECAUSE* the maximum value from my guess by far is 6, and the minimum by far is 4, therefore the number must be 5
+| Test | Chosen input | Should happen | Did happen |
+| :--- | :--- | :--- | :--- |
+| **Color Hints** | Easy, secret fixed at 3. Guess 1, 2, 4, 5, 6, 7, 8, then 9 and 10 | 1, 2, 4, 5, 6, 7, and 8 show red; 9 and 10 show orange | 1, 2, 4, 5, 6, 7, and 8 did show red, and 9 and 10 showed orange |
+| **Easy Mode Range** | Click on Easy mode | Guessing range changes to 1 to 10 | Did show 1 to 10, and started guessing with 5 instead of 50 |
+| **Record Tracking** | Win in 5 guesses | Record displays `Record: 5` | Record did show 5 |
+| **Parity Hint** | Secret number set to 7, click Hint | Message displays "The number is odd" | Displayed "The number is odd" |
+| **Medium Mode Message** | Start new game in Medium mode | Header text says "The coin is hidden in one of the chambers from 1 to 100" | Showed "The coin is hidden in one of the chambers from 1 to 100" |
+| **Coin Reward Logic** | Secret set to 7, guess correctly in less than 3 tries in twice | Gain 4 coins in total (2 coins x 2 wins) | Total coins increased by 4 |
+| **Dynamic Bounds** | Secret set to 5, guess 6 then guess 4 | Upper bound sets to 6, lower bound sets to 4 | Range adjusted to show between 4 and 6 |
+
+ 
+ 
+ ## HOW IT WORKS
+
+### Coin Reward System
+- **Variables used:** `totalPoints` (`@State var`) to store the player's cumulative coin count, and `numberOfGuesses` (`@State var`) to keep track of total attempts made in the current round.
+- **Decision & Operators:** An `if-else` statement combined with the less-than-or-equal operator (`<=`) checks if `numberOfGuesses <= 3`. The addition assignment operator (`+=`) increments `totalPoints` by `2` for fast wins or by `1` otherwise.
+- **Why this tool:** I chose an `if-else` conditional structure over a `switch` statement because there are only two distinct outcome tiers (speedy win vs. standard win), making `if-else` clearer and more concise for binary conditions.
+ 
 ## Credits
  
-- The guessing game was written by Coco.wang.
-
-
+- **Starter Game Code:** Created by Mr. R. Gordon.
+- **Game Customizations & Enhancements:** Written by Coco Wang.

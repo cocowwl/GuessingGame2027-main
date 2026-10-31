@@ -187,11 +187,6 @@ struct GuessingGameView: View {
                         } else {
                             parityHint = "The number is odd."
                         }
-                        if !parityHint.isEmpty {
-                            Text(parityHint)
-                                .font(.headline)
-                                .foregroundStyle(Color.purple)
-                        }
                     }
                 }
 
@@ -209,7 +204,7 @@ struct GuessingGameView: View {
         // TRY: Change indigo to another colour, such as teal, pink or orange.
         .tint(Color.indigo)
         // How big the game's window is on the Mac. It can be made taller or wider.
-        .frame(minWidth: 420, minHeight: 640)
+        .frame(minWidth: 460, minHeight: 760)
     }
 
     // MARK: - Functions
@@ -219,11 +214,6 @@ struct GuessingGameView: View {
 
         // One more guess has been made.
         numberOfGuesses += 1
-        Count += 1
-        
-        if record != 0 && guess < record {
-           guess = record
-        }
         
         //The "win"
         if guess == secretNumber {
@@ -237,10 +227,8 @@ struct GuessingGameView: View {
                 totalPoints += 1
                 message = "Coin gained! Number \(secretNumber) was the correct chamber"
             }
-            if numberOfGuesses > Count {
+            if proxyRecord == 0 || numberOfGuesses < proxyRecord {
                 proxyRecord = numberOfGuesses
-            } else {
-                proxyRecord = Count
             }
         
         //The "miss"
@@ -250,14 +238,21 @@ struct GuessingGameView: View {
             messageSymbol = "xmark.circle.fill"
             messageColor = Color.red
             if guess < secretNumber {
-                lowestEnd = guess
+                if guess > lowestEnd {
+                    lowestEnd = guess
+                }
             } else {
-                highestEnd = guess
+                if guess < highestEnd {
+                    highestEnd = guess
+                }
             }
-            
 
         }
     }
+    //getting the distance
+    func calculateDistance(guess: Int, secret: Int) -> Int {
+            return abs(guess - secret)
+        }
     
     // Warm and cold color hints
     func colorHints() {
@@ -273,7 +268,7 @@ struct GuessingGameView: View {
             messageColor = Color.orange
         }
         //if the number is within 15 from the secretnumber
-        if relativeDistance >= 15 {
+        if relativeDistance > 15 {
             messageColor = Color.blue
         }
     }
@@ -329,10 +324,8 @@ struct GuessingGameView: View {
     
     // Picks a new secret number and resets everything else.
     func startNewGame() {
-        lowestEnd = 1
-        highestEnd = 10
-        lowestNumber = 1
-        highestNumber = 10
+        lowestEnd = lowestNumber
+        highestEnd = highestNumber
         secretNumber = Int.random(in: lowestNumber...highestNumber)
         guess = (lowestNumber + highestNumber) / 2
         numberOfGuesses = 0
@@ -341,59 +334,27 @@ struct GuessingGameView: View {
         messageColor = Color.indigo
         gameIsOver = false
         parityHint = ""
-        Count = 0
     }
     
     //easy mode
     func easyGame() {
-        lowestEnd = 1
-        highestEnd = 10
         lowestNumber = 1
         highestNumber = 10
-        //secretNumber = Int.random(in: lowestNumber...highestNumber)
-        secretNumber = Int.random(in: 1...10)
-        guess = (lowestNumber + highestNumber) / 2
-        numberOfGuesses = 0
-        message = "The coin is hidden in one of the chambers from 1 to 10."
-        messageSymbol = "questionmark.circle.fill"
-        messageColor = Color.indigo
-        gameIsOver = false
-        parityHint = ""
-        Count = 0
+        startNewGame()
     }
     
     //medium mode
     func mediumGame() {
-        lowestEnd = 1
-        highestEnd = 100
         lowestNumber = 1
         highestNumber = 100
-        secretNumber = Int.random(in: 1...100)
-        guess = (lowestNumber + highestNumber) / 2
-        numberOfGuesses = 0
-        message = "The coin is hidden in one of the chambers from 1 to 100."
-        messageSymbol = "questionmark.circle.fill"
-        messageColor = Color.indigo
-        gameIsOver = false
-        parityHint = ""
-        Count = 0
+        startNewGame()
     }
     
     //hard mode
     func hardGame() {
-        lowestEnd = 1
-        highestEnd = 1000
         lowestNumber = 1
         highestNumber = 1000
-        secretNumber = Int.random(in: 1...1000)
-        guess = (lowestNumber + highestNumber) / 2
-        numberOfGuesses = 0
-        message = "The coin is hidden in one of the chambers from 1 to 1000."
-        messageSymbol = "questionmark.circle.fill"
-        messageColor = Color.indigo
-        gameIsOver = false
-        parityHint = ""
-        Count = 0
+        startNewGame()
     }
 }
 
