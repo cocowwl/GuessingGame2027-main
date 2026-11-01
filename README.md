@@ -25,7 +25,7 @@ You are guessing a number of the chamber that is randomized by the computer and 
 ## TESTS
 | Test | Chosen input | Should happen | Did happen |
 | :--- | :--- | :--- | :--- |
-| **Color Hints** | Easy, secret fixed at 3. Guess 1, 2, 4, 5, 6, 7, 8, then 9 and 10 | 1, 2, 4, 5, 6, 7, and 8 show red; 9 and 10 show orange | 1, 2, 4, 5, 6, 7, and 8 did show red, and 9 and 10 showed orange |
+| **Color Hints** | Easy, secret fixed at 10. Guess 1, 2, 4, 5, 6, 7, 8, then 9 and 10 | 1, 2, 3, and 4 show orange; 5, 6, 7, 8, and 9 shows red | 1, 2, 3 and 4 did show orange, and 5, 6, 7, 8, and 9 showed red |
 | **Easy Mode Range** | Click on Easy mode | Guessing range changes to 1 to 10 | Did show 1 to 10, and started guessing with 5 instead of 50 |
 | **Record Tracking (Fewest Guesses)** | Win in 3 guesses, tap Play Again, then win in 5 guesses | Record stays at `Record: 3` (stores fewest guesses, not latest win) | Record remained at 3 after the second win |
 | **Parity Hint** | Secret number set to 7, click Hint | Message displays "The number is odd" | Displayed "The number is odd" |
@@ -43,8 +43,8 @@ You are guessing a number of the chamber that is randomized by the computer and 
  ## HOW IT WORKS
 
 ### Coin Reward System
-- **Variables used:** `totalPoints` (`@State var`) to store the player's cumulative coin count, and `numberOfGuesses` (`@State var`) to keep track of total attempts made in the current round.
-- **Decision & Operators:** An `if-else` statement combined with the less-than-or-equal operator (`<=`) checks if `numberOfGuesses <= 3`. The addition assignment operator (`+=`) increments `totalPoints` by `2` for fast wins or by `1` otherwise.
+- **Variables used:** `totalPoints` (`@State var`) to store the player's cumulative coin count, and `numberOfGuesses` (`@State var`) to keep track of total attempts made in the current round
+- **Decision & Operators:** An `if-else` statement combined with the less-than-or-equal operator (`<=`) checks if `numberOfGuesses <= 3`. The addition assignment operator (`+=`) increments `totalPoints` by `2` for fast wins or by `1` otherwise
 - **Why this tool:** I chose an `if-else` conditional structure over a `switch` statement because there are only two distinct outcome tiers (speedy win vs. standard win), making `if-else` clearer and more concise for binary conditions.
  
 ## Credits
